@@ -90,7 +90,7 @@ class RedisCluster
   end
   
   def preferred_master(servers)
-    # See if the CNAME points to aserver
+    # See if the CNAME points to a server
     servers.each do |server|
       if self.cname_pointed?(cname, server)
         @log.warn "CNAME points to #{server[:name]} (#{server[:host]}:#{server[:port]}), promoting it to become a new master"
