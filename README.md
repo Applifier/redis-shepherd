@@ -8,10 +8,8 @@ Redis-shepherd monitors and tries to maintain master/slave replication configura
       :dnsmadeeasy_api_key: acb123-def456
       :dnsmadeeasy_secret_key: def456-acb123
 
-### Define redis servers in _redis-shepherd.rb_
-
-    cname = 'ha-redis.example.net'
-    redises = [{:host => 'redis1.example.net', :port => 6379}, {:host => 'redis2.example.net', :port => 6380}]
+### Define configuration in _config/shepherd.yml_
+See config/shepherd.yml.example for details
 
 ### Turn off dry-run mode in _redis-shepherd.rb_
 
