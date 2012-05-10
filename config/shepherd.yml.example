@@ -1,0 +1,6 @@
+:cname: 'ha-redis.example.cxm'
+:redises:
+  - :host: 'redis1.example.cxm'
+    :port: 6379
+  - :host: 'redis2.example.cxm'
+    :port: 6380

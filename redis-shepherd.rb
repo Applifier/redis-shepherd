@@ -5,11 +5,18 @@ require 'lib/redis-cluster.rb'
 
 # Check if we're called from cmdline or required from another script
 if __FILE__ == $0
-  cname = 'ha-redis.applifier.info'
-  redises = [{:host => 'ha-redis1.applifier.info', :port => 6379}, {:host => 'ha-redis2.applifier.info', :port => 6380}]
 
-  cluster = RedisCluster.new(cname, redises)
+  begin
+    require 'yaml'
+    cfile = File.join(File.dirname(__FILE__), 'config/shepherd.yml.example')
+    config = YAML::load(File.open(cfile))
+  rescue
+    raise "Could not read configuration file #{cfile}: #{$!}"
+  end
+
+  cluster = RedisCluster.new(config[:cname], config[:redises])
   cluster.dryrun = true
+
   cluster.shepherd
 end
 
