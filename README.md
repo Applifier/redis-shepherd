@@ -13,7 +13,7 @@ Redis-shepherd monitors and tries to maintain master/slave replication configura
     cname = 'ha-redis.example.net'
     redises = [{:host => 'redis1.example.net', :port => 6379}, {:host => 'redis2.example.net', :port => 6380}]
 
-### Turn of dry-run mode in _redis-shepherd.rb_
+### Turn off dry-run mode in _redis-shepherd.rb_
 
     cluster.dryrun = false
 
