@@ -1,3 +1,4 @@
+---
 :cname: 'ha-redis.example.cxm'
 :redises:
   - :host: 'redis1.example.cxm'

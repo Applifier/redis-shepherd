@@ -8,7 +8,7 @@ if __FILE__ == $0
 
   begin
     require 'yaml'
-    cfile = File.join(File.dirname(__FILE__), 'config/shepherd.yml.example')
+    cfile = File.join(File.dirname(__FILE__), 'config/shepherd.yml')
     config = YAML::load(File.open(cfile))
   rescue
     raise "Could not read configuration file #{cfile}: #{$!}"
