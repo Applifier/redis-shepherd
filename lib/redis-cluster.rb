@@ -157,7 +157,7 @@ class RedisCluster
     if self.cname_pointed?(cname, master)
       @log.info "CNAME #{@cname} points to current master '#{cname}'"
     else
-      @log.warn "CNAME #{@cname} does not point to current master '#{cname}'"
+      @log.warn "CNAME #{@cname} does not point to current master, expected '#{master[:host]}.' but got '#{cname}'"
       self.update_cname("#{master[:host]}.") unless @dryrun
     end
 
