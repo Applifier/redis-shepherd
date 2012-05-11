@@ -13,7 +13,7 @@ class RedisCluster
     @log = Logger.new(STDOUT)
     @log.level = Logger::INFO
 
-    require 'lib/dnsmadeeasy'
+    require 'lib/dns'
     @dns = DNS.new
     
     # Generate some metadata for easier DNS operations

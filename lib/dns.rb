@@ -3,11 +3,9 @@ require 'fog'
 class DNS
 
   def initialize()
-    config = YAML::load(File.open(ENV['HOME']+'/.fog'))[:default]
-    @dns = Fog::DNS::DNSMadeEasy.new(
-      :dnsmadeeasy_api_key =>  config[:dnsmadeeasy_api_key],
-      :dnsmadeeasy_secret_key => config[:dnsmadeeasy_secret_key]
-    )
+    cfile = File.join('config/shepherd.yml')
+    config = YAML::load(File.open(cfile))[:dns][:config]
+    @dns = Fog::DNS.new(config)
   end
 
   def update(hostname, data, type='CNAME', ttl=60)

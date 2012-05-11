@@ -1,5 +1,9 @@
 ---
-:cname: 'ha-redis.example.cxm'
+:dns:
+    :cname: 'ha-redis.example.cxm'
+    :config: { :provider: :dnsmadeeasy, 
+               :dnsmadeeasy_api_key: 'abcd1234-efgh5678',
+               :dnsmadeeasy_secret_key: 'efgh5678-abcd1234' }
 :redises:
   - :host: 'redis1.example.cxm'
     :port: 6379

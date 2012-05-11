@@ -14,7 +14,7 @@ if __FILE__ == $0
     raise "Could not read configuration file #{cfile}: #{$!}"
   end
 
-  cluster = RedisCluster.new(config[:cname], config[:redises])
+  cluster = RedisCluster.new(config[:dns][:cname], config[:redises])
   cluster.dryrun = true
 
   cluster.shepherd
