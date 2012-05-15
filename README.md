@@ -2,13 +2,10 @@
 Redis-shepherd monitors and tries to maintain master/slave replication configuration up to date. It also keeps the specified CNAME record pointed to a running master.
 
 ## Installation
+Clone or fork the project
 
-### Define cluster and DNS configuration in _config/shepherd.yml_
+### Define configuration in _config/shepherd.yml_
 See _config/shepherd.yml.example_ for details. At the moment only DNS Made Easy has been tested. 
-
-### Turn off dry-run mode in _redis-shepherd.rb_
-
-    cluster.dryrun = false
 
 ### Run it
 You probably want to run the script via cron or use daemonization
