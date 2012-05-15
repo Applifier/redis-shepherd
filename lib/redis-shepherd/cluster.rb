@@ -12,7 +12,7 @@ module RedisShepherd
       @log = Logger.new(config[:logfile] || STDOUT)
       @log.level = Logger::INFO
 
-      @dns = DNS.new(config[:dns][:config])
+      @dns = RedisShepherd::DNS.new(config[:dns][:config])
     end
 
     def shepherd()
