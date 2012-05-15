@@ -8,6 +8,9 @@ Clone or fork the project
 See _config/shepherd.yml.example_ for details. At the moment only DNS Made Easy has been tested. 
 
 ### Run it
+
+	ruby -rubygems bin/redis-shepherd
+
 You probably want to run the script via cron or use daemonization
 
 ## License
