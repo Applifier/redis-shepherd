@@ -1,4 +1,5 @@
 ---
+:dryrun: true
 :dns:
     :cname: 'ha-redis.example.cxm'
     :config: { :provider: :dnsmadeeasy, 
@@ -9,3 +10,4 @@
     :port: 6379
   - :host: 'redis2.example.cxm'
     :port: 6380
+:logfile: '/tmp/redis-shepherd.log'

@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+# Check that we're called from cmdline 
+if __FILE__ == $0
+
+  $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib') unless $LOAD_PATH.include?(File.dirname(__FILE__) + '/../lib')
+
+  require 'redis-shepherd'
+
+  begin
+    require 'yaml'
+    cfile = File.join(File.dirname(__FILE__), './../config/shepherd.yml')
+    config = YAML::load(File.open(cfile))
+  rescue
+    raise "Could not read configuration file #{cfile}: #{$!}"
+  end
+
+  cluster = RedisShepherd::Cluster.new(config)
+  cluster.shepherd
+
+end
+
