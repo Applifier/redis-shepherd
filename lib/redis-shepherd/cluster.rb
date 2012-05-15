@@ -1,6 +1,3 @@
-require 'redis'
-require 'logger'
-
 module RedisShepherd
   
   class Cluster

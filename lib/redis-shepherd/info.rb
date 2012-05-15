@@ -1,5 +1,3 @@
-require 'redis'
-
 module RedisShepherd
 
   class Info

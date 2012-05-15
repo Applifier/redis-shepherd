@@ -8,7 +8,6 @@ if __FILE__ == $0
   require 'redis-shepherd'
 
   begin
-    require 'yaml'
     cfile = File.join(File.dirname(__FILE__), './../config/shepherd.yml')
     config = YAML::load(File.open(cfile))
   rescue

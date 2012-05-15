@@ -1,5 +1,3 @@
-require 'fog'
-
 module RedisShepherd
   
   class DNS
