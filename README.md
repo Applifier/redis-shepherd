@@ -8,10 +8,16 @@ Clone or fork the project
 See _config/shepherd.yml.example_ for details. At the moment only DNS Made Easy has been tested. 
 
 ### Run it
+You can run the script via cron or use daemonization
+
+Cron
 
 	ruby -rubygems bin/redis-shepherd
 
-You probably want to run the script via cron or use daemonization
+Daemonization
+
+	ruby -rubygems /bin/redis-shepherdctl start
+	ruby -rubygems /bin/redis-shepherdctl stop
 
 ## License
 (The MIT License)
