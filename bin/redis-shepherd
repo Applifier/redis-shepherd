@@ -1,21 +1,39 @@
 #!/usr/bin/env ruby
 
-# Check that we're called from cmdline 
-if __FILE__ == $0
+$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib') unless $LOAD_PATH.include?(File.dirname(__FILE__) + '/../lib')
 
-  $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib') unless $LOAD_PATH.include?(File.dirname(__FILE__) + '/../lib')
+require 'redis-shepherd'
 
-  require 'redis-shepherd'
+options = {}
 
-  begin
-    cfile = File.join(File.dirname(__FILE__), './../config/shepherd.yml')
-    config = YAML::load(File.open(cfile))
-  rescue
-    raise "Could not read configuration file #{cfile}: #{$!}"
+optparse = OptionParser.new do |opts|
+  opts.on( '-h', '--help', 'Display help' ) do
+   puts opts
+   exit
   end
+  options[:conf] = File.join(File.dirname(__FILE__), './../config/shepherd.yml')
+  opts.on( '-c', '--config [FILE]', "Configuration file" ) do |f|
+   options[:conf] = f
+  end
+end
 
-  cluster = RedisShepherd::Cluster.new(config)
+optparse.parse!
+
+begin
+  config = YAML::load(File.open(options[:conf]))
+rescue
+  raise "Could not read configuration file #{options[:conf]}: #{$!}"
+end
+
+cluster = RedisShepherd::Cluster.new(config)
+
+# Check if we're called from cmdline or daemonized
+if __FILE__ == $0
   cluster.shepherd
-
+else  
+  loop do
+    cluster.shepherd
+    sleep 10
+  end
 end
 

@@ -2,6 +2,7 @@ $:.unshift File.dirname(__FILE__)
 
 # stdlib
 require 'yaml'
+require 'optparse'
 
 # 3rd party
 require 'redis'
