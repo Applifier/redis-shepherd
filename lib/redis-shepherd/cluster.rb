@@ -119,7 +119,7 @@ module RedisShepherd
     def demote(slave, master)
       @log.info "Demoting #{slave[:host]} to slaveof #{master[:host]} #{master[:port]}"
       connection(slave[:host], slave[:port], slave[:password]) do |redis|
-        redis.slaveof(master[:host], master[:port])
+        redis.slaveof(master[:host], master[:port]||'6739')
       end
     end
 
@@ -154,7 +154,7 @@ module RedisShepherd
     def update_slaves(slaves, master)
       slaves.each do |slave|
         if slave[:slaveof]
-          if slave[:slaveof][:host] == master[:host] and slave[:slaveof][:port].to_i == master[:port].to_i
+          if slave[:slaveof][:host] == master[:host] and slave[:slaveof][:port].to_i == (master[:port]||'6739').to_i
              @log.info "Replication configuration of #{slave[:name]} is up-to-date"
             next
           end
