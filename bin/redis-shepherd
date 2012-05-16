@@ -32,6 +32,7 @@ if __FILE__ == $0
   cluster.shepherd
 else  
   loop do
+    Signal.trap('INT') { cluster.clean_and_exit('SIGINT signal received') }
     cluster.shepherd
     sleep 10
   end

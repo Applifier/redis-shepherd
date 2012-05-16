@@ -74,6 +74,11 @@ module RedisShepherd
 
     end
 
+    def clean_and_exit(message)
+      @log.warn "#{message}"
+      exit 0
+    end
+
     protected
 
     def members()
