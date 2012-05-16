@@ -10,4 +10,5 @@
     :port: 6379
   - :host: 'redis2.example.cxm'
     :port: 6380
+	:password: 'foo'
 :logfile: '/tmp/redis-shepherd.log'

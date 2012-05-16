@@ -93,7 +93,7 @@ module RedisShepherd
 
       @redises.each do |server|
         begin
-          redis = RedisShepherd::Info.new(server[:host], server[:port])
+          redis = RedisShepherd::Info.new(server[:host], server[:port], server[:password])
           if redis.master?
             @log.info "MEMBER #{server[:name]} (#{server[:host]}) is MASTER"
             masters << server
@@ -111,21 +111,21 @@ module RedisShepherd
 
     def promote(master)
       @log.info "Promoting #{master[:host]} to master"
-      connection(master[:host], master[:port]) do |redis|
+      connection(master[:host], master[:port], master[:password]) do |redis|
         redis.slaveof('NO', 'ONE')
       end
     end
 
     def demote(slave, master)
       @log.info "Demoting #{slave[:host]} to slaveof #{master[:host]} #{master[:port]}"
-      connection(slave[:host], slave[:port]) do |redis|
+      connection(slave[:host], slave[:port], slave[:password]) do |redis|
         redis.slaveof(master[:host], master[:port])
       end
     end
 
-    def connection(host, port)
+    def connection(host, port, password)
       begin
-        redis = Redis.new(:host => host, :port => port)
+        redis = Redis.new(:host => host, :port => port, :password => password)
         yield(redis)
       rescue Errno::ECONNREFUSED
         @log.warn "Could not connect to #{server[:host]}: #{$!}"
