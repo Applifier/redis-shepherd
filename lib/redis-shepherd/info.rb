@@ -2,7 +2,7 @@ module RedisShepherd
 
   class Info
   
-    def initialize(host='localhost', port=6379, password=nil)
+    def initialize(host = 'localhost', port = 6379, password = nil)
       @host = host
       @port = port
       @password = password
@@ -17,15 +17,11 @@ module RedisShepherd
     end
 
     def slaveof
-      connection do |redis|
-        {:host => redis.info['master_host'], :port => redis.info['master_port']}
-      end
+      connection { |redis| { :host => redis.info['master_host'], :port => redis.info['master_port'] } }
     end
 
     def role
-      connection do |redis|
-        redis.info['role']
-      end
+      connection { |redis| redis.info['role'] }
     end
         
     protected

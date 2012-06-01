@@ -20,9 +20,9 @@ module RedisShepherd
 
     def resolve(hostname)
       name, domain = self.split_hostname(hostname)
-      records =  @dns.list_records(domain).body
-      records.each { |record| return record if record['name'] == name }
-      return false
+      records =  @dns.list_records(domain).body      
+      record = records.select { |record| record['name'] == name }
+      record.first
     end
   
     protected 

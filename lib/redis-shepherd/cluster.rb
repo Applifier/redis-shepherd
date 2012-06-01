@@ -12,7 +12,7 @@ module RedisShepherd
       @dns = RedisShepherd::DNS.new(config[:dns][:config])
     end
 
-    def shepherd()
+    def shepherd
       @log.info "Shepharding #{@cname}#{', but not really doing anything, I just like to watch' if @dryrun}"
 
       # See where the CNAME points at the moment
@@ -28,9 +28,7 @@ module RedisShepherd
       end
 
       # No running slaves, nothing we can do but continue searching for running master(s)
-      if slaves.empty?
-        @log.warn "Redis slave(s) DOWN"
-      end
+      @log.warn "Redis slave(s) DOWN" if slaves.empty?
 
       # No running master
       if masters.empty?
@@ -53,13 +51,11 @@ module RedisShepherd
         self.promote(master) unless @dryrun
 
         # Handle the rest of the masters as slaves
-        slaves.concat(masters.reject { |m| m == master })
+        slaves.concat(masters.reject { |m| m == master } )
       end
 
       # Alles klar, check that CNAME points to current master
-      if masters.size == 1
-        master = masters.first
-      end
+      master = masters.first if masters.size == 1
 
       # Make sure DNS is up to date
       if self.cname_pointed?(cname, master)
@@ -71,7 +67,6 @@ module RedisShepherd
 
       # Finally make sure slave configuration is up to date
       self.update_slaves(slaves, master) unless @dryrun
-
     end
 
     def clean_and_exit(message)
@@ -81,13 +76,13 @@ module RedisShepherd
 
     protected
 
-    def members()
+    def members
       masters = Array.new 
       slaves = Array.new
 
       # Set defaults and generate some additional variables for easier DNS operations
       @redises.each do |redis|
-        redis[:port] = 6379 unless redis[:port]
+        redis[:port] ||= 6379
         redis[:name] = redis[:host].split('.')[0]
         redis[:domain] = redis[:host].split('.')[-2..-1].join('.')
       end
@@ -112,16 +107,12 @@ module RedisShepherd
 
     def promote(master)
       @log.info "Promoting #{master[:host]} to master"
-      connection(master[:host], master[:port], master[:password]) do |redis|
-        redis.slaveof('NO', 'ONE')
-      end
+      connection(master[:host], master[:port], master[:password]) { |redis| redis.slaveof('NO', 'ONE') }
     end
 
     def demote(slave, master)
       @log.info "Demoting #{slave[:host]} to slaveof #{master[:host]} #{master[:port]}"
-      connection(slave[:host], slave[:port], slave[:password]) do |redis|
-        redis.slaveof(master[:host], master[:port])
-      end
+      connection(slave[:host], slave[:port], slave[:password]) { |redis| redis.slaveof(master[:host], master[:port]) }
     end
 
     def connection(host, port, password)
@@ -133,9 +124,8 @@ module RedisShepherd
       end
     end
 
-    def cname()
+    def cname
       cname = @dns.resolve(@cname)['data']
-      return cname
     end
 
     def cname_pointed?(cname, host)
