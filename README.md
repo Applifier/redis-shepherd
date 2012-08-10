@@ -1,6 +1,20 @@
 # redis-shepherd
 Redis-shepherd monitors and tries to maintain master/slave replication configuration up to date. It also keeps the specified CNAME record pointed to a running master.
 
+## Description
+- Resolves where the master's CNAME points at the moment
+- Creates a list of running servers (master(s) and slaves)
+- If all servers down there's nothing to do but exit with an error
+- If there's no running master
+    - Select new preferred master from slaves
+- If there's too many running masters
+    - Select preferred master from all available masters
+    - Handle the rest of the masters as slaves
+- Make sure DNS CNAME is up to date (points to master)
+- Finally make sure slave configuration is up to date
+
+*Preferred master is a server where the CNAME currently points. If CNAME does not point to any running server, select first available server*
+
 ## Installation
 Clone or fork the project
 
