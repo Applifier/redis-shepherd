@@ -98,7 +98,7 @@ module RedisShepherd
             server[:slaveof] = redis.slaveof
             slaves << server
           end
-        rescue Errno::ECONNREFUSED
+        rescue Errno::ECONNREFUSED, Redis::TimeoutError, SocketError, Redis::CannotConnectError, Errno::ETIMEDOUT
           @log.warn "MEMBER #{server[:host]} is DOWN"
         end
       end
